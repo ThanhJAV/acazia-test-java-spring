@@ -93,7 +93,11 @@ run TestJavaSpringApplication
 
 ## Run Docker image with working demo
 
-    //updating
+docker network create spring-boot-mysql-network
+
+docker run -itdp 3306:3306 --network spring-boot-mysql-network --name mysql-service 091827364509182736450918273645/acazia-mysql-service:latest
+
+docker run -itdp 8080:8080 --network spring-boot-mysql-network --name web-service 091827364509182736450918273645/acazia-web-service:latest
 
 ## See the demo (Open API 3.0):
 

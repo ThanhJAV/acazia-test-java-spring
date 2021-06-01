@@ -1,0 +1,49 @@
+#version: "1"
+#services:
+#  test-java-spring:
+#    image: test-java-spring
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - acazia-test-java-spring
+#    depends_on:
+#      - acaziadb
+#
+#  acaziadb:
+#    image: mysql:latest
+#    ports:
+#      - "3306:3306"
+#    networks:
+#      - acazia-test-java-spring
+#    environment:
+#      - MYSQL_ROOT_USER=root
+#      - MYSQL_ROOT_PASSWORD=root
+#      - MYSQL_DATABASE=db_example
+#
+#networks:
+#  acazia-test-java-spring:
+version: "1"
+services:
+  mysql-service:
+    image: mysql:latest
+    ports:
+    - "3306:3306"
+    networks:
+      - spring-boot-mysql-network
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=db_example
+  web-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-boot-mysql-network
+    depends_on:
+      - mysql-service
+networks:
+  spring-boot-mysql-network:
+    driver: bridge
